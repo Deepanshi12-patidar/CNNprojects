@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YOLOv8 Detection</title>
+</head>
+<body>
+  <h2>Upload Image for Detection</h2>
+  <input type="file" id="fileInput">
+  <button onclick="uploadImage()">Detect</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    async function uploadImage() {
+      let fileInput = document.getElementById("fileInput").files[0];
+      let formData = new FormData();
+      formData.append("file", fileInput);
+
+      let res = await fetch("http://127.0.0.1:8000/detect/", {
+        method: "POST",
+        body: formData
+      });
+
+      let data = await res.json();
+      document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
